@@ -1,0 +1,87 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="A2A.MC.Console.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="AuthenticationUrl" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">https://login-us.mimecast.com/u/login/?gta=administration#/login</Value>
+    </Setting>
+    <Setting Name="UserName" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">srv_archive360@franklintempleton.discovery</Value>
+    </Setting>
+    <Setting Name="Password" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">Try@4now</Value>
+    </Setting>
+    <Setting Name="ReportsFolderPath" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">C:\work\Reports</Value>
+    </Setting>
+    <Setting Name="ScenarioFilePath" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">C:\MimecastTool\Projects\Repos\Archive360\Mimecast\Artefacts\Scenario\scenario_20170508.txt</Value>
+    </Setting>
+    <Setting Name="DownloadFolderPath" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">D:\Extracted\Downloads</Value>
+    </Setting>
+    <Setting Name="LogsFolder" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">C:\work\Logs</Value>
+    </Setting>
+    <Setting Name="ScenarioFileHasHeader" Type="System.Boolean" Scope="Application">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="AllowLaunchNewExports" Type="System.Boolean" Scope="Application">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="ScreenshotsFolderPath" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">C:\work\Screenshots</Value>
+    </Setting>
+    <Setting Name="MinSlotsForNewExports" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">1</Value>
+    </Setting>
+    <Setting Name="OffHoursTimeSlots" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">10</Value>
+    </Setting>
+    <Setting Name="WorkHoursTimeSlots" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">10</Value>
+    </Setting>
+    <Setting Name="ExportsPageUrl" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">https://login-uk.mimecast.com/administration/app/#/l/exports</Value>
+    </Setting>
+    <Setting Name="HomeSearchFolder" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">ZZZA360TestNew</Value>
+    </Setting>
+    <Setting Name="SavedSearchesUrl" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">https://login-us.mimecast.com/administration/app/#/l/savedsearches</Value>
+    </Setting>
+    <Setting Name="Action" Type="A2A.Option.MCActions" Scope="Application">
+      <Value Profile="(Default)">CheckExport</Value>
+    </Setting>
+    <Setting Name="MaxResultsPerExport" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">50000</Value>
+    </Setting>
+    <Setting Name="CustomerName" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">FranklinTempleton</Value>
+    </Setting>
+    <Setting Name="SqlServerInstance" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">.</Value>
+    </Setting>
+    <Setting Name="ExportFormat" Type="A2A.MC.Kernel.Entities.ExportFormatCode" Scope="Application">
+      <Value Profile="(Default)">ExchJrnl</Value>
+    </Setting>
+    <Setting Name="IncludeLitigationHoldMessages" Type="System.Boolean" Scope="Application">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="SqlDatabaseName" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">Mimecast_db</Value>
+    </Setting>
+    <Setting Name="IncludeBccRecipients" Type="System.Boolean" Scope="Application">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="SqlDatabasePassword" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">a</Value>
+    </Setting>
+    <Setting Name="SqlDatabaseUserName" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">sa</Value>
+    </Setting>
+    <Setting Name="SqlIntegratedSecurity" Type="System.Boolean" Scope="Application">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

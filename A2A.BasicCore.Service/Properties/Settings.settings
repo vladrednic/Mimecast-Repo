@@ -1,0 +1,27 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="A2A.BasicCore.Service.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="SchedulerDataJson" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">{
+  "defaultData": "default data",
+  "restrictedIntervals": [
+    {
+      "startDay": "Monday",
+      "endDay": "Wednesday",
+      "startTime": "06:00",
+      "endTime": "19:00",
+      "restrictedData": "restricted data 1"
+    },
+    {
+      "startDay": "Thursday",
+      "endDay": "Friday",
+      "startTime": "06:00",
+      "endTime": "19:00",
+      "restrictedData": "restricted data 2"
+    }
+  ]
+}</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>
