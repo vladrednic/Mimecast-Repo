@@ -5,9 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace A2A.MC.Kernel.Entities {
-    public enum ExportFormatCode : byte {
-        EML = 0,
-        PST = 1,
-        ExchangeJournal = 2
+    public enum ScenarioTypeEnum: byte {
+        SMTP,
+        DateRange
     }
 }

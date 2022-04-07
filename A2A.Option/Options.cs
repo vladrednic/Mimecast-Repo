@@ -74,5 +74,8 @@ namespace A2A.Option {
 
         [Option('z', "includebcc", Required = false, HelpText = "Include BCC Recipients")]
         public bool? IncludeBccRecipients { get; set; }
+
+        [Option('j', "scenariotype", Required = true, HelpText = "Scenario Type")]
+        public ScenarioType SenarioType { get; set; }
     }
 }

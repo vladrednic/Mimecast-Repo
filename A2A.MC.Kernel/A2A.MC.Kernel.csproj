@@ -54,6 +54,8 @@
     <Compile Include="Entities\EntityBase.cs" />
     <Compile Include="Entities\ExportMC.cs" />
     <Compile Include="Entities\IExportEntity.cs" />
+    <Compile Include="Enums\ScenarioType.cs" />
+    <Compile Include="Enums\ScenarioTypeEnum.cs" />
     <Compile Include="Entities\Search.cs" />
     <Compile Include="Entities\SearchMC.cs" />
     <Compile Include="Entities\SearchStatus.cs" />

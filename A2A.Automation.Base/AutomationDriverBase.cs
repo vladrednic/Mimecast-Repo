@@ -44,8 +44,8 @@ namespace A2A.Automation.Base {
                 case ExportFormatCode.PST:
                     FileExtension = ".pst";
                     break;
-                case ExportFormatCode.ExchJrnl:
-                    FileExtension = "???"; //TODO: to be determined!
+                case ExportFormatCode.ExchangeJournal:
+                    FileExtension = ".zip"; //TODO: to be determined!
                     break;
                 default:
                     break;

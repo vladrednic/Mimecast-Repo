@@ -99,6 +99,7 @@ namespace A2A.MC.Automation {
             arguments.Add($"MaxResultsPerExport  = {Options.MaxResultsPerExport}");
             arguments.Add($"ExportFormat         = {Options.ExportFormat}");
             arguments.Add($"IncludeBccRecipients = {Options.IncludeBccRecipients}");
+            //arguments.Add($"ScenarioType =       = {Options.ScenarioType}");
         }
 
         private string GetLaunchedSearchesFilePath() {
@@ -1824,11 +1825,11 @@ Please investigate the latest generated search and if needed, manually delete th
                     }
                     Info($"WARN: Cannot read from Mimecast. Details: {ex.Message}");
                     Info($"Refreshing the data. Retries left: {retry}");
-                    Driver.Navigate().Refresh();
                 }
             }
             throw new ApplicationException("Could not perform the download. Read above for more details on the error");
         }
+
         private void RemoveDownloadedFiles(SubSearchFile[] files, string downloadFolder) {
             if (files == null)
                 return;
@@ -1903,7 +1904,7 @@ Please investigate the latest generated search and if needed, manually delete th
                 _lastDownloadStart = StartDownloadExport(export, download);
 
                 SaveScreenshot("Download_" + export.Name);
-                WaitAlert(new TimeSpan(0, 1, 0));
+                //WaitAlert(new TimeSpan(0, 1, 0));
 
                 var filesAfter = GetNewDownloadedFiles(DownloadFolderPath, filesBefore);
 
@@ -2180,7 +2181,10 @@ Please investigate the latest generated search and if needed, manually delete th
         }
 
         private bool WaitUntilDownloadCompletes(SubSearchFile file, string filePath, out long size) {
-            var partFile = filePath + ".part";
+            var fileName = Path.GetFileNameWithoutExtension(filePath);
+            var fileNameParts = fileName.Split('.');
+            var partFile = Directory.GetFiles(DownloadFolderPath,"*.part*")
+                .SingleOrDefault(f => f.Contains(fileNameParts[0]) && f.Contains(fileNameParts[1]) && f.Contains(fileNameParts[2]));
             size = 0;
             var tsWait = new TimeSpan(0, 30, 0);
             var dtStart = DateTime.Now;
@@ -2415,7 +2419,7 @@ Please investigate the latest generated search and if needed, manually delete th
                         export.CreatedBy = td.Text;
                         break;
                     case 5:
-                        if (Enum.TryParse<ExportFormatCode>(text, out var format))
+                        if (Enum.TryParse<ExportFormatCode>(text.Replace(" ", string.Empty), out var format))
                             export.ExportFormat = format;
                         break;
                     case 6:
@@ -2496,21 +2500,30 @@ Please investigate the latest generated search and if needed, manually delete th
             var methodByUrl = false;
             if (methodByUrl) {
                 Info("Fetching exports");
-                if (Driver.Url.ToLower() != Options.ExportsPageUrl.ToLower()) {
-                    Driver.Url = Options.ExportsPageUrl;
-                    Driver.Navigate();
-                }
-                else {
-                    RefresshExportsPage();
-                }
+                GoToExportsPageByUrl();
             }
             else {
-                GotoExportsPageByClick();
+                try {
+                    GotoExportsPageByClick();
+                }
+                catch {
+                    RefresshExportsPage();
+                }
             }
             Sleep(10 * 1000);
             //else
             //    Driver.Navigate().Refresh();
             //Sleep(2 * 1000);
+        }
+
+        private void GoToExportsPageByUrl() {
+            if (Driver.Url.ToLower() != Options.ExportsPageUrl.ToLower()) {
+                Driver.Url = Options.ExportsPageUrl;
+                Driver.Navigate();
+            }
+            else {
+                RefresshExportsPage();
+            }
         }
 
         private void GotoExportsPageByClick() {
@@ -2654,10 +2667,12 @@ Please investigate the latest generated search and if needed, manually delete th
             }
             Sleep();
 
-            var includebcc = WaitElementById("includebcc", ElementCoditionTypes.ElementExists);
-            if (IncludeBccRecipients) {
-                if (!includebcc.Selected) {
-                    includebcc.Click();
+            if (ExportFormat != ExportFormatCode.ExchangeJournal) {
+                var includebcc = WaitElementById("includebcc", ElementCoditionTypes.ElementExists);
+                if (IncludeBccRecipients) {
+                    if (!includebcc.Selected) {
+                        includebcc.Click();
+                    }
                 }
             }
 
