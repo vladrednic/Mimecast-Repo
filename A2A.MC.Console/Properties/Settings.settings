@@ -45,13 +45,13 @@
       <Value Profile="(Default)">https://login-uk.mimecast.com/administration/app/#/l/exports</Value>
     </Setting>
     <Setting Name="HomeSearchFolder" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">ZZZA360TestNew</Value>
+      <Value Profile="(Default)">ZZZA360DateRange</Value>
     </Setting>
     <Setting Name="SavedSearchesUrl" Type="System.String" Scope="Application">
       <Value Profile="(Default)">https://login-us.mimecast.com/administration/app/#/l/savedsearches</Value>
     </Setting>
     <Setting Name="Action" Type="A2A.Option.MCActions" Scope="Application">
-      <Value Profile="(Default)">CheckExport</Value>
+      <Value Profile="(Default)">CreateSearch</Value>
     </Setting>
     <Setting Name="MaxResultsPerExport" Type="System.Int32" Scope="Application">
       <Value Profile="(Default)">50000</Value>
@@ -63,13 +63,13 @@
       <Value Profile="(Default)">.</Value>
     </Setting>
     <Setting Name="ExportFormat" Type="A2A.MC.Kernel.Entities.ExportFormatCode" Scope="Application">
-      <Value Profile="(Default)">ExchJrnl</Value>
+      <Value Profile="(Default)">ExchangeJournal</Value>
     </Setting>
     <Setting Name="IncludeLitigationHoldMessages" Type="System.Boolean" Scope="Application">
       <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="SqlDatabaseName" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">Mimecast_db</Value>
+      <Value Profile="(Default)">Mimecast_DateRange</Value>
     </Setting>
     <Setting Name="IncludeBccRecipients" Type="System.Boolean" Scope="Application">
       <Value Profile="(Default)">True</Value>

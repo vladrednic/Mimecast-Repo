@@ -152,7 +152,7 @@ namespace A2A.MC.Console.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("ZZZA360TestNew")]
+        [global::System.Configuration.DefaultSettingValueAttribute("ZZZA360DateRange")]
         public string HomeSearchFolder {
             get {
                 return ((string)(this["HomeSearchFolder"]));
@@ -170,7 +170,7 @@ namespace A2A.MC.Console.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("CheckExport")]
+        [global::System.Configuration.DefaultSettingValueAttribute("CreateSearch")]
         public global::A2A.Option.MCActions Action {
             get {
                 return ((global::A2A.Option.MCActions)(this["Action"]));
@@ -206,7 +206,7 @@ namespace A2A.MC.Console.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("ExchJrnl")]
+        [global::System.Configuration.DefaultSettingValueAttribute("ExchangeJournal")]
         public global::A2A.MC.Kernel.Entities.ExportFormatCode ExportFormat {
             get {
                 return ((global::A2A.MC.Kernel.Entities.ExportFormatCode)(this["ExportFormat"]));
@@ -224,7 +224,7 @@ namespace A2A.MC.Console.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Mimecast_db")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Mimecast_DateRange")]
         public string SqlDatabaseName {
             get {
                 return ((string)(this["SqlDatabaseName"]));

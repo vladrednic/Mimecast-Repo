@@ -8,6 +8,6 @@ namespace A2A.MC.Kernel.Entities {
     public enum ExportFormatCode : byte {
         EML = 0,
         PST = 1,
-        ExchJrnl = 2
+        ExchangeJournal = 2
     }
 }
