@@ -50,7 +50,7 @@ namespace A2A.MC.Kernel.Entities {
 
         private bool SetSimpleName() {
             if (string.IsNullOrEmpty(Email))
-                Email = Name;
+                return false;
             if (string.IsNullOrEmpty(Name))
                 Name = Email;
 
@@ -82,7 +82,13 @@ namespace A2A.MC.Kernel.Entities {
         }
 
         private string GetRandomName() {
-            var desiredName = $"{Email}_{BeginDate.Value:yyyy-MM-dd-HH:mm}_{EndDate.Value:yyyy-MM-dd-HH:mm}";
+            var desiredName = string.Empty;
+            if (!string.IsNullOrEmpty(Email)) {
+                desiredName = $"{Email}_{BeginDate.Value:yyyy-MM-dd-HH:mm}_{EndDate.Value:yyyy-MM-dd-HH:mm}";
+            }
+            else {
+                desiredName = $"{BeginDate.Value:yyyy-MM-dd-HH:mm}_{EndDate.Value:yyyy-MM-dd-HH:mm}";
+            }
             var randomLength = 60 - desiredName.Length;
             if (randomLength > 0) {
                 return desiredName;

@@ -37,6 +37,7 @@ namespace A2A.Automation.Base {
             IncludeLegalHoldMessages = opt.IncludeLegalHoldMessages == true;
             ExportFormat = opt.ExportFormat ?? ExportFormatCode.EML;
             IncludeBccRecipients = opt.IncludeBccRecipients ?? false;
+            SmtpScenario = opt.SmtpScenario ?? true;
             switch (ExportFormat) {
                 case ExportFormatCode.EML:
                     FileExtension = ".zip";
@@ -69,6 +70,7 @@ namespace A2A.Automation.Base {
         public bool ScenarioFileHasHeader { get; set; } = false;
         public string ReportsFolderPath { get; set; }
         public string ScreenshotsFolderPath { get; set; }
+        public bool SmtpScenario { get; set; }
 
         private static StreamWriter _swLog;
         private static object _syncLog = new object();

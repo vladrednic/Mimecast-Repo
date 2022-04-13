@@ -99,6 +99,7 @@ namespace A2A.MC.Automation {
             arguments.Add($"MaxResultsPerExport  = {Options.MaxResultsPerExport}");
             arguments.Add($"ExportFormat         = {Options.ExportFormat}");
             arguments.Add($"IncludeBccRecipients = {Options.IncludeBccRecipients}");
+            arguments.Add($"SmtpScenario         = {Options.SmtpScenario}");
         }
 
         private string GetLaunchedSearchesFilePath() {
@@ -520,6 +521,8 @@ namespace A2A.MC.Automation {
                                     LastExportLaunched = DateTime.Now;
                                 }
                                 WriteExportReport();
+                                RefresshExportsPage();
+                                Sleep(10 * 1000);
                                 continue;
                             }
                         }
@@ -529,8 +532,8 @@ namespace A2A.MC.Automation {
 
                         Info($"Waiting {sleepTime / 1000} seconds");
                         //WriteExportReport();
+                        RefresshExportsPage();
                         Sleep(sleepTime);
-                        //RefresshExportsPage();
                         continue;
                     }
 
@@ -548,6 +551,8 @@ namespace A2A.MC.Automation {
                         //WriteExportReport();
                         SwitchToParentFrame();
                     }
+                    RefresshExportsPage();
+                    Sleep(10 * 1000);
                 } while (true);
             }
         }
@@ -595,7 +600,14 @@ namespace A2A.MC.Automation {
             }
             List<ExportMC> toLaunch = new List<ExportMC>();
             //Info($"Excluding {LaunchedSearches.Count} already launched searches");
-            var searches = _db.GetSearchesToExport();
+            var searches = new List<SubSearch>();
+            if (SmtpScenario) {
+                searches = _db.GetSearchesToExport().OrderByDescending(s => s.EndDate.Value).ToList();
+            }
+            else {
+                searches = _db.GetSearchesToExport();
+            }
+
             foreach (var search in searches) {
                 var exportmc = new ExportMC();
                 exportmc.LoadFrom(search);
@@ -1222,6 +1234,11 @@ namespace A2A.MC.Automation {
             search1.SetName();
             search2.SetName();
 
+            if (!SmtpScenario) {
+                search1.Email = string.Empty;
+                search2.Email = string.Empty;
+            }
+
             var list = new List<SearchMC> {
                 search1,
                 search2
@@ -1639,7 +1656,7 @@ Please investigate the latest generated search and if needed, manually delete th
             SwitchToParentFrame();
 
             Info($"Created (sub)search {search.Name}");
-            Sleep();
+            Sleep(3000);
 
             //src = new Search();
             //search.Fill(src, ExportFormat);
@@ -2181,9 +2198,16 @@ Please investigate the latest generated search and if needed, manually delete th
 
         private bool WaitUntilDownloadCompletes(SubSearchFile file, string filePath, out long size) {
             var fileName = Path.GetFileNameWithoutExtension(filePath);
-            var fileNameParts = fileName.Split('.');
-            var partFile = Directory.GetFiles(DownloadFolderPath,"*.part*")
-                .SingleOrDefault(f => f.Contains(fileNameParts[0]) && f.Contains(fileNameParts[1]) && f.Contains(fileNameParts[2]));
+            var partFile = string.Empty;
+            if (SmtpScenario) {
+                var fileNameParts = fileName.Split('.');
+                partFile = Directory.GetFiles(DownloadFolderPath, "*.part*")
+                    .SingleOrDefault(f => f.Contains(fileNameParts[0]) && f.Contains(fileNameParts[1]) && f.Contains(fileNameParts[2]));
+            }
+            else {
+                partFile = Directory.GetFiles(DownloadFolderPath, "*.part*")
+                    .SingleOrDefault(f => f.Contains(fileName));
+            }
             size = 0;
             var tsWait = new TimeSpan(0, 30, 0);
             var dtStart = DateTime.Now;

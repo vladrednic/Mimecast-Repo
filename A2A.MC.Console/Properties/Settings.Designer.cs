@@ -170,7 +170,7 @@ namespace A2A.MC.Console.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("CreateSearch")]
+        [global::System.Configuration.DefaultSettingValueAttribute("CheckExport")]
         public global::A2A.Option.MCActions Action {
             get {
                 return ((global::A2A.Option.MCActions)(this["Action"]));
@@ -224,7 +224,7 @@ namespace A2A.MC.Console.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Mimecast_DateRange")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Mimecast_DateRange4")]
         public string SqlDatabaseName {
             get {
                 return ((string)(this["SqlDatabaseName"]));
@@ -264,6 +264,15 @@ namespace A2A.MC.Console.Properties {
         public bool SqlIntegratedSecurity {
             get {
                 return ((bool)(this["SqlIntegratedSecurity"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool SmtpScenario {
+            get {
+                return ((bool)(this["SmtpScenario"]));
             }
         }
     }

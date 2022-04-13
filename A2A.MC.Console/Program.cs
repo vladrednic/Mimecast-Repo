@@ -3,6 +3,7 @@ using A2A.ExcelReporter;
 using A2A.MC.Automation;
 using A2A.MC.Common;
 using A2A.MC.Data;
+using A2A.MC.Kernel.Entities;
 using A2A.MC.Kernel.Exceptions;
 using A2A.Option;
 using CommandLine;
@@ -104,17 +105,19 @@ namespace A2A.MC.Console {
         }
 
         private static void RunOptions(Options opt) {
-            ParseStandardArgs(_args, opt);
+            //ParseStandardArgs(_args, opt);
             opt = opt.Combine(Properties.Settings.Default);
+            opt.Password = null;
+            ReadPassword(opt);
             //Context.CustomerName = opt.CustomerName;
 
-            var mgr = new PasswordManager();
-            opt.Password = mgr.GetPasswordPlainText();
-            var sqlInstance = Properties.Settings.Default.SqlServerInstance;
-            var sqlDatabaseName = Properties.Settings.Default.SqlDatabaseName;
-            var sqlUserPassword = Properties.Settings.Default.SqlDatabasePassword;
-            var sqlIntegratedSecurity = Properties.Settings.Default.SqlIntegratedSecurity;
-            var sqlUserName = Properties.Settings.Default.SqlDatabaseUserName;
+            //var mgr = new PasswordManager();
+            //opt.Password = mgr.GetPasswordPlainText();
+            var sqlInstance = opt.SqlServerInstance ?? Properties.Settings.Default.SqlServerInstance;
+            var sqlDatabaseName = opt.SqlDatabaseName ?? Properties.Settings.Default.SqlDatabaseName;
+            var sqlUserPassword = opt.SqlDatabasePassword ?? Properties.Settings.Default.SqlDatabasePassword;
+            var sqlIntegratedSecurity = opt.SqlIntegratedSecurity ?? Properties.Settings.Default.SqlIntegratedSecurity;
+            var sqlUserName = opt.SqlDatabaseUserName ?? Properties.Settings.Default.SqlDatabaseUserName;
 
             var action = opt.Action;
             using (_driver = new MCAutomationDriver(opt)) {
@@ -208,9 +211,20 @@ namespace A2A.MC.Console {
                 LogProvider = driver
             };
             db.SearchAddProgress += Db_SearchAddProgress;
+            if(!driver.SmtpScenario && searches.Count == 1) {
+                AddDateRangeToSearchFromName(searches);
+            }
             driver.Info($"Adding {searches.Count} searches");
             var n = db.AddSearches(searches);
             driver.Info($"Total processed: {db.TotalProcessed}. Inserted: {db.BatchInserted}. Duplicates: {db.BatchDuplicates}");
+        }
+
+        private static void AddDateRangeToSearchFromName(List<Search> searches) {
+            var search = searches.FirstOrDefault();
+            var dateParts = search.Name.Split('_');
+            search.BeginDate = DateTime.Parse(dateParts[0]);
+            search.EndDate = DateTime.Parse(dateParts[1]);
+            search.Email = string.Empty;
         }
 
         private static void Db_SearchAddProgress(object sender, EventArgs e) {
@@ -240,6 +254,40 @@ namespace A2A.MC.Console {
             var msg = $@"Usage:
 Accepted parameter values: {string.Join(", ", values)}";
             System.Console.WriteLine(msg);
+        }
+
+        private static void ReadPassword(Options options) {
+            if (!string.IsNullOrEmpty(options.Password))
+                return;
+            System.Console.WriteLine("Enter the database user password:");
+            var password = string.Empty;
+            var enterPressed = false;
+            while (!enterPressed) {
+                var keyInfo = System.Console.ReadKey(true);
+                switch (keyInfo.Key) {
+                    case ConsoleKey.Enter: {
+                        System.Console.WriteLine();
+                        enterPressed = true;
+                        break;
+                    }
+                    case ConsoleKey.Backspace: {
+                        if (password.Length > 0) {
+                            password = password.Substring(0, password.Length - 1);
+                            System.Console.Write("\b \b");
+                        }
+                        break;
+                    }
+                    default: {
+                        password += keyInfo.KeyChar;
+                        System.Console.Write("*");
+                        break;
+                    }
+                }
+            }
+
+            options.Password = password;
+
+            System.Console.Clear();
         }
     }
 }

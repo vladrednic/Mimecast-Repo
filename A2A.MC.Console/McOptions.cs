@@ -32,12 +32,19 @@ namespace A2A.Option {
                 ScenarioFilePath = opt.ScenarioFilePath ?? settings.ScenarioFilePath,
                 ScreenshotsFolderPath = opt.ScreenshotsFolderPath ?? settings.ScreenshotsFolderPath,
                 UserName = opt.UserName ?? settings.UserName,
+                Password = opt.Password ?? settings.Password,
                 WorkHoursTimeSlots = opt.WorkHoursTimeSlots ?? settings.WorkHoursTimeSlots,
                 MaxResultsPerExport = opt.MaxResultsPerExport ?? settings.MaxResultsPerExport,
                 CustomerName = opt.CustomerName ?? settings.CustomerName,
                 IncludeLegalHoldMessages = opt.IncludeLegalHoldMessages ?? settings.IncludeLitigationHoldMessages,
                 ExportFormat = opt.ExportFormat ?? settings.ExportFormat,
-                IncludeBccRecipients = opt.IncludeBccRecipients ?? settings.IncludeBccRecipients
+                IncludeBccRecipients = opt.IncludeBccRecipients ?? settings.IncludeBccRecipients,
+                SmtpScenario = opt.SmtpScenario ?? settings.SmtpScenario,
+                SqlServerInstance = opt.SqlServerInstance ?? settings.SqlServerInstance,
+                SqlDatabaseName =  opt.SqlDatabaseName ?? settings.SqlDatabaseName,
+                SqlDatabasePassword = opt.SqlDatabasePassword ?? settings.SqlDatabasePassword,
+                SqlIntegratedSecurity = opt.SqlIntegratedSecurity ?? settings.SqlIntegratedSecurity,
+                SqlDatabaseUserName = opt.SqlDatabaseUserName ?? settings.SqlDatabaseUserName,
             };
 
             if (!newOpt.MaxResultsPerExport.HasValue)

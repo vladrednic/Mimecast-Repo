@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace A2A.Option {
     public class Options {
         [JsonConverter(typeof(StringEnumConverter))]
-        [Option('a', "action", Required = false, HelpText = "Action to perform: Report, Retention, Password, TestCode")]
+        [Option('a', "action", Required = false, HelpText = "Action to perform: ImportData, CheckExport, CreateSearch, GetCount, DeleteSearch, Reconcile")]
         public MCActions? Action { get; set; }
 
         [Option('r', "url", Required = false, HelpText = "Authentication URL")]
@@ -69,10 +69,28 @@ namespace A2A.Option {
         public string CustomerName { get; set; }
         [Option('g', "includelh", Required = false, HelpText = "Include Legal Hold Messages")]
         public bool? IncludeLegalHoldMessages { get; set; }
-        [Option('b', "exportformat", Required = false, HelpText = "Export Format: EML / PST / ExchJrnl")]
+        [Option('b', "exportformat", Required = false, HelpText = "Export Format: EML / PST / ExchangeJournal")]
         public ExportFormatCode? ExportFormat { get; set; }
 
         [Option('z', "includebcc", Required = false, HelpText = "Include BCC Recipients")]
         public bool? IncludeBccRecipients { get; set; }
+
+        [Option('j', "smtpscenario", Required = false, HelpText = "Is SMTP Scenario")]
+        public bool? SmtpScenario { get; set; }
+
+        [Option("sqlserver", Required = false, HelpText = "Sql server instance")]
+        public string SqlServerInstance { get; set; }
+
+        [Option("sqldatabase", Required = false, HelpText = "Sql server database")]
+        public string SqlDatabaseName { get; set; }
+
+        [Option("sqlpassword", Required = false, HelpText = "Sql server password")]
+        public string SqlDatabasePassword { get; set; }
+
+        [Option("sqlintegratedsecurity", Required = false, HelpText = "Logon with integrated security")]
+        public bool? SqlIntegratedSecurity { get; set; }
+
+        [Option("sqluser", Required = false, HelpText = "Sql server user name")]
+        public string SqlDatabaseUserName {get;set;}
     }
 }
