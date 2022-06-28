@@ -59,6 +59,7 @@
     <Compile Include="Entities\SearchStatus.cs" />
     <Compile Include="Entities\SubSearch.cs" />
     <Compile Include="Entities\SubSearchFile.cs" />
+    <Compile Include="Enums\DateRangeStrategyEnum.cs" />
     <Compile Include="Enums\ExportFormat.cs" />
     <Compile Include="Enums\ExportFormatCode.cs" />
     <Compile Include="Enums\ExportStatus.cs" />

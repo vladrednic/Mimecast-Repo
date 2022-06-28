@@ -216,7 +216,7 @@ namespace A2A.MC.Data {
                     if (search.EndDate.HasValue) {
                         //adding time to include the current day
                         var dt = search.EndDate.Value;
-                        if (dt == dt.Date) {
+                        if (dt == dt.Date && !search.Email.StartsWith("(ALL)")) {
                             dt = dt.Date.AddDays(1).AddSeconds(-1);
                         }
                         search.EndDate = dt;

@@ -1,4 +1,5 @@
 ﻿using A2A.MC.Kernel.Entities;
+using A2A.MC.Kernel.Enums;
 using CommandLine;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
@@ -77,6 +78,12 @@ namespace A2A.Option {
 
         [Option('j', "smtpscenario", Required = false, HelpText = "Is SMTP Scenario")]
         public bool? SmtpScenario { get; set; }
+
+        [Option("datestrategy", Required = false, HelpText = "Date range scenario strategy")]
+        public DateRangeStrategyEnum? DateRangeStrategy { get; set; }
+
+        [Option("datestrategyval", Required = false, HelpText = "Date range scenario strategy value")]
+        public int? DateRangeStrategyValue { get; set; }
 
         [Option("sqlserver", Required = false, HelpText = "Sql server instance")]
         public string SqlServerInstance { get; set; }

@@ -40,6 +40,9 @@ namespace A2A.Option {
                 ExportFormat = opt.ExportFormat ?? settings.ExportFormat,
                 IncludeBccRecipients = opt.IncludeBccRecipients ?? settings.IncludeBccRecipients,
                 SmtpScenario = opt.SmtpScenario ?? settings.SmtpScenario,
+                DateRangeStrategy = opt.DateRangeStrategy ?? settings.DateRangeStrategy,
+                DateRangeStrategyValue = opt.DateRangeStrategyValue ?? settings.DateRangeStrategyValue,
+
                 SqlServerInstance = opt.SqlServerInstance ?? settings.SqlServerInstance,
                 SqlDatabaseName =  opt.SqlDatabaseName ?? settings.SqlDatabaseName,
                 SqlDatabasePassword = opt.SqlDatabasePassword ?? settings.SqlDatabasePassword,

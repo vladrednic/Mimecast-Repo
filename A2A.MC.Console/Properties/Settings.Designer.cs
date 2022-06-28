@@ -275,5 +275,23 @@ namespace A2A.MC.Console.Properties {
                 return ((bool)(this["SmtpScenario"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Hourly")]
+        public global::A2A.MC.Kernel.Enums.DateRangeStrategyEnum DateRangeStrategy {
+            get {
+                return ((global::A2A.MC.Kernel.Enums.DateRangeStrategyEnum)(this["DateRangeStrategy"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        public int DateRangeStrategyValue {
+            get {
+                return ((int)(this["DateRangeStrategyValue"]));
+            }
+        }
     }
 }

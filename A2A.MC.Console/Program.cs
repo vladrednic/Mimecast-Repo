@@ -4,6 +4,7 @@ using A2A.MC.Automation;
 using A2A.MC.Common;
 using A2A.MC.Data;
 using A2A.MC.Kernel.Entities;
+using A2A.MC.Kernel.Enums;
 using A2A.MC.Kernel.Exceptions;
 using A2A.Option;
 using CommandLine;
@@ -211,12 +212,52 @@ namespace A2A.MC.Console {
                 LogProvider = driver
             };
             db.SearchAddProgress += Db_SearchAddProgress;
-            if(!driver.SmtpScenario && searches.Count == 1) {
+            if (!driver.SmtpScenario && searches.Count == 1) {
                 AddDateRangeToSearchFromName(searches);
+                searches = SplitIntoMultipleSearches(searches, options);
             }
             driver.Info($"Adding {searches.Count} searches");
             var n = db.AddSearches(searches);
             driver.Info($"Total processed: {db.TotalProcessed}. Inserted: {db.BatchInserted}. Duplicates: {db.BatchDuplicates}");
+        }
+
+        private static List<Search> SplitIntoMultipleSearches(List<Search> searches, Options options) {
+            var search = searches[0];
+            var start = search.BeginDate;
+            var end = search.EndDate;
+            var resultSearches = new List<Search>();
+            while (start.Value < end.Value) {
+                var subEnd = GetSubDateDate(start, options);
+                if (subEnd.Value > end.Value) {
+                    subEnd = end;
+                }
+                var newSearch = new Search {
+                    Name = $"{start.Value:yyyy-MM-dd-HH:mm}_{subEnd.Value:yyyy-MM-dd-HH:mm}",
+                    Email = $"(ALL){start.Value:yyyy-MM-dd-HH:mm}_{subEnd.Value:yyyy-MM-dd-HH:mm}",
+                    BeginDate = start,
+                    EndDate = subEnd,
+                };
+                resultSearches.Add(newSearch);
+                start = subEnd.Value.AddSeconds(1);
+            }
+            return resultSearches;
+        }
+
+        private static DateTime? GetSubDateDate(DateTime? start, Options options) {
+            switch (options.DateRangeStrategy) {
+                case DateRangeStrategyEnum.Daily:
+                    return start.Value.AddDays(options.DateRangeStrategyValue.Value).AddSeconds(-1);
+                case DateRangeStrategyEnum.Hourly:
+                    return start.Value.AddHours(options.DateRangeStrategyValue.Value);
+                case DateRangeStrategyEnum.Monthly:
+                    return start.Value.AddMonths(options.DateRangeStrategyValue.Value);
+
+                    //for testing
+                case DateRangeStrategyEnum.ByMinutes:
+                    return start.Value.AddMinutes(options.DateRangeStrategyValue.Value);
+                default:
+                    return null;
+            }
         }
 
         private static void AddDateRangeToSearchFromName(List<Search> searches) {
@@ -259,7 +300,7 @@ Accepted parameter values: {string.Join(", ", values)}";
         private static void ReadPassword(Options options) {
             if (!string.IsNullOrEmpty(options.Password))
                 return;
-            System.Console.WriteLine("Enter the database user password:");
+            System.Console.WriteLine("Enter the Mimecast user password:");
             var password = string.Empty;
             var enterPressed = false;
             while (!enterPressed) {

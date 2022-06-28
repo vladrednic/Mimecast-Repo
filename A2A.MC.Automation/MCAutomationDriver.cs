@@ -601,7 +601,7 @@ namespace A2A.MC.Automation {
             List<ExportMC> toLaunch = new List<ExportMC>();
             //Info($"Excluding {LaunchedSearches.Count} already launched searches");
             var searches = new List<SubSearch>();
-            if (SmtpScenario) {
+            if (!SmtpScenario) {
                 searches = _db.GetSearchesToExport().OrderByDescending(s => s.EndDate.Value).ToList();
             }
             else {
@@ -1234,11 +1234,6 @@ namespace A2A.MC.Automation {
             search1.SetName();
             search2.SetName();
 
-            if (!SmtpScenario) {
-                search1.Email = string.Empty;
-                search2.Email = string.Empty;
-            }
-
             var list = new List<SearchMC> {
                 search1,
                 search2
@@ -1499,8 +1494,10 @@ namespace A2A.MC.Automation {
             Info($"Total searches: Mimecast {mcExistingSubSearches}; dabatase: {dbExistingSubSearches}");
 
             if (mcExistingSubSearches.Value != dbExistingSubSearches) {
-                throw new A2ASearchCountMismatch($@"The number of searches in Mimecast folder is different than the number of SubSearches in database (see above).
+                if (!SubsearchesEqualized()) {
+                    throw new A2ASearchCountMismatch($@"The number of searches in Mimecast folder is different than the number of SubSearches in database (see above).
 Please investigate the latest generated search and if needed, manually delete the searches that do not appear in the database");
+                }
             }
 
             //        Info($@"==> Start creating new (sub)search:
@@ -1522,7 +1519,7 @@ Please investigate the latest generated search and if needed, manually delete th
             txtSearchName.SendKeys(srcName);
             Sleep(100);
 
-            if (!string.IsNullOrEmpty(search.Email)) {
+            if (!search.Email.StartsWith("(ALL)")) {
                 var fromtext = ScrollToElement("fromtext");
                 fromtext.SendKeys(search.Email);
                 Sleep(100);
@@ -1533,7 +1530,7 @@ Please investigate the latest generated search and if needed, manually delete th
             opElem.SelectByValue("OR");
             Sleep(100);
 
-            if (!string.IsNullOrEmpty(search.Email)) {
+            if (!search.Email.StartsWith("(ALL)")) {
                 var totext = ScrollToElement("totext");
                 totext.SendKeys(search.Email);
                 Sleep(100);
@@ -1663,6 +1660,10 @@ Please investigate the latest generated search and if needed, manually delete th
             //_db.UpdateSearch(src);
 
             return true;
+        }
+
+        private bool SubsearchesEqualized() {
+            _db.GetSearchesToReset();
         }
 
         private string GenerateSearchName(SearchMC search) {

@@ -49,8 +49,11 @@ namespace A2A.MC.Kernel.Entities {
         }
 
         private bool SetSimpleName() {
-            if (string.IsNullOrEmpty(Email))
+            if (Email.StartsWith("(ALL)")) {
                 return false;
+            }
+            if (string.IsNullOrEmpty(Email))
+                Email = Name;
             if (string.IsNullOrEmpty(Name))
                 Name = Email;
 
@@ -82,8 +85,8 @@ namespace A2A.MC.Kernel.Entities {
         }
 
         private string GetRandomName() {
-            var desiredName = string.Empty;
-            if (!string.IsNullOrEmpty(Email)) {
+            string desiredName;
+            if (!Email.StartsWith("(ALL)")) {
                 desiredName = $"{Email}_{BeginDate.Value:yyyy-MM-dd-HH:mm}_{EndDate.Value:yyyy-MM-dd-HH:mm}";
             }
             else {
