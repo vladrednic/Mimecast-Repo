@@ -496,8 +496,15 @@ namespace A2A.MC.Automation {
                     //UpdateExports(out exportToDownload);
 
                     LoadExportsFromDb();
-                    Info("Looking for an export available to download");
-                    var ok = DownloadExportWithRetry(DownloadFolderPath, out exportToDownload);
+                    bool ok;
+                    int? totalPages;
+                    int? newExportPageIndex = 1;
+                    do {
+                        Info($"Looking for an export available to download on export page {newExportPageIndex.Value}");
+                        ok = DownloadExportWithRetry(DownloadFolderPath, out exportToDownload);
+                        Driver.SwitchTo().Frame(1);
+                        newExportPageIndex = GotToNextSearchesPage(out totalPages);
+                    } while (newExportPageIndex.HasValue);
 
                     if (exportToDownload == null) {
                         Info($"No downloads pending");
@@ -592,6 +599,12 @@ namespace A2A.MC.Automation {
         private void RefresshExportsPage() {
             Driver.Navigate().Refresh();
             Driver.SwitchTo().DefaultContent();
+            Driver.SwitchTo().Frame(1);
+            Sleep(5000);
+            var SysDepth = WaitElementById("SysDepth", ElementCoditionTypes.ElementExists, 5);
+            SelectElement select = new SelectElement(SysDepth);
+            select.SelectByValue("1000");
+            Driver.SwitchTo().Frame(0);
         }
 
         private bool LaunchExportsAfterDownload(int count) {
@@ -608,7 +621,7 @@ namespace A2A.MC.Automation {
                 searches = _db.GetSearchesToExport();
             }
 
-            foreach (var search in searches) {
+            foreach (var search in searches.Take(count)) {
                 var exportmc = new ExportMC();
                 exportmc.LoadFrom(search);
                 exportmc.ExportFormat = ExportFormat;
@@ -1494,10 +1507,8 @@ namespace A2A.MC.Automation {
             Info($"Total searches: Mimecast {mcExistingSubSearches}; dabatase: {dbExistingSubSearches}");
 
             if (mcExistingSubSearches.Value != dbExistingSubSearches) {
-                if (!SubsearchesEqualized()) {
                     throw new A2ASearchCountMismatch($@"The number of searches in Mimecast folder is different than the number of SubSearches in database (see above).
 Please investigate the latest generated search and if needed, manually delete the searches that do not appear in the database");
-                }
             }
 
             //        Info($@"==> Start creating new (sub)search:
@@ -1660,10 +1671,6 @@ Please investigate the latest generated search and if needed, manually delete th
             //_db.UpdateSearch(src);
 
             return true;
-        }
-
-        private bool SubsearchesEqualized() {
-            _db.GetSearchesToReset();
         }
 
         private string GenerateSearchName(SearchMC search) {
@@ -1830,7 +1837,7 @@ Please investigate the latest generated search and if needed, manually delete th
             var retry = 3;
             while (retry-- > 0) {
                 try {
-                    Driver.SwitchTo().Frame(1);
+                    //Driver.SwitchTo().Frame(1);
                     return DownloadExport(downloadFolder, out export);
                 }
                 catch (Exception ex) {
@@ -2562,6 +2569,12 @@ Please investigate the latest generated search and if needed, manually delete th
                     break;
                 }
             }
+            Driver.SwitchTo().Frame(1);
+            Sleep(5000);
+            var SysDepth = WaitElementById("SysDepth", ElementCoditionTypes.ElementExists, 5);
+            SelectElement select = new SelectElement(SysDepth);
+            select.SelectByValue("1000");
+            Driver.SwitchTo().Frame(0);
         }
 
         private void GotoHomeFolderWithRetry(bool switchFrame = true) {
