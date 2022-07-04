@@ -498,13 +498,15 @@ namespace A2A.MC.Automation {
                     LoadExportsFromDb();
                     bool ok;
                     int? totalPages;
-                    int? newExportPageIndex = 1;
+                    int? newExportPageIndex = 0;
                     do {
-                        Info($"Looking for an export available to download on export page {newExportPageIndex.Value}");
+                        Info($"Looking for an export available to download on export page {newExportPageIndex.Value + 1}");
                         ok = DownloadExportWithRetry(DownloadFolderPath, out exportToDownload);
                         Driver.SwitchTo().Frame(1);
                         newExportPageIndex = GotToNextSearchesPage(out totalPages);
                     } while (newExportPageIndex.HasValue);
+
+                    RefresshExportsPage();
 
                     if (exportToDownload == null) {
                         Info($"No downloads pending");
